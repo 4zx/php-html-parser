@@ -78,12 +78,15 @@ class Parser
         $str = null,
         $lowercase = true,
         $forceTagsClosed = true,
-        $target_charset = Config::get('DEFAULT_TARGET_CHARSET'),
+        $target_charset = null,
         $stripRN = true,
-        $defaultBRText = Config::get('DEFAULT_BR_TEXT'),
-        $defaultSpanText = Config::get('DEFAULT_SPAN_TEXT'),
+        $defaultBRText = null,
+        $defaultSpanText = null,
         $options = 0
     ) {
+        $target_charset = $target_charset ?: Config::get('DEFAULT_TARGET_CHARSET');
+        $defaultBRText = $defaultBRText ?: Config::get('DEFAULT_BR_TEXT');
+        $defaultSpanText = $defaultSpanText ?: Config::get('DEFAULT_SPAN_TEXT');
         if ($str) {
             if (preg_match('/^http:\/\//i', $str) || is_file($str)) {
                 $this->load_file($str);
@@ -116,11 +119,13 @@ class Parser
         $str,
         $lowercase = true,
         $stripRN = true,
-        $defaultBRText = Config::get('DEFAULT_BR_TEXT'),
-        $defaultSpanText = Config::get('DEFAULT_SPAN_TEXT'),
+        $defaultBRText = null,
+        $defaultSpanText = null,
         $options = 0
     ) {
         global $debug_object;
+        $defaultBRText = $defaultBRText ?: Config::get('DEFAULT_BR_TEXT');
+        $defaultSpanText = $defaultSpanText ?: Config::get('DEFAULT_SPAN_TEXT');
 
         // prepare
         $this->prepare($str, $lowercase, $defaultBRText, $defaultSpanText);
@@ -242,9 +247,11 @@ class Parser
     protected function prepare(
         $str,
         $lowercase = true,
-        $defaultBRText = Config::get('DEFAULT_BR_TEXT'),
-        $defaultSpanText = Config::get('DEFAULT_SPAN_TEXT')
+        $defaultBRText = null,
+        $defaultSpanText = null
     ) {
+        $defaultBRText = $defaultBRText ?: Config::get('DEFAULT_BR_TEXT');
+        $defaultSpanText = $defaultSpanText ?: Config::get('DEFAULT_SPAN_TEXT');
         $this->clear();
 
         $this->doc = trim($str);
@@ -694,11 +701,11 @@ class Parser
         } while ($this->char !== '>' && $this->char !== '/'); // go until the tag ended
 
         $this->link_nodes($node, true);
-        $node->_[Config::get('HDOM_INFO_END')SPACE] = $space[0];
+        $node->_[Config::get('HDOM_INFO_ENDSPACE')] = $space[0];
 
         // handle empty tags (i.e. "<div/>")
         if ($this->copy_until_char('>') === '/') {
-            $node->_[Config::get('HDOM_INFO_END')SPACE] .= '/';
+            $node->_[Config::get('HDOM_INFO_ENDSPACE')] .= '/';
             $node->_[Config::get('HDOM_INFO_END')] = 0;
         } else {
             // reset parent

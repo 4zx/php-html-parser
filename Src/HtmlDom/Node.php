@@ -4,7 +4,7 @@ namespace Dev4zx\HtmlDom;
 
 class Node
 {
-    public $nodetype = Config::get('HDOM_TYPE_TEXT');
+    public $nodetype;
     public $tag = 'text';
     public $attr = array();
     public $children = array();
@@ -16,6 +16,7 @@ class Node
 
     function __construct($dom)
     {
+        $this->nodetype = Config::get('HDOM_TYPE_TEXT');
         $this->dom = $dom;
         $dom->nodes[] = $this;
     }
@@ -397,7 +398,7 @@ class Node
         }
 
         $ret = $this->dom->restore_noise($ret);
-        return $ret . $this->_[Config::get('HDOM_INFO_END')SPACE] . '>';
+        return $ret . $this->_[Config::get('HDOM_INFO_ENDSPACE')] . '>';
     }
 
     function find($selector, $idx = null, $lowercase = false)
