@@ -1,0 +1,26 @@
+{
+    "name": "4zx/php-html-parser",
+    "description": "modification of simplehtmldom by S.C. Chen with psr-4 autoload",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "S.C. Chen",
+            "email": "me578022@gmail.com",
+            "homepage": "https://simplehtmldom.sourceforge.io/"
+        },
+        {
+            "name": "Angga Permana",
+            "email": "4zx.dev@gmail.com",
+            "homepage": "https://github.com/4zx"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Dev4zx\\": "Src/"
+        },
+        "files": [
+            "Src/function.php"
+        ]
+    }
+}
